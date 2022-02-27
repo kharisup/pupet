@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const { Cluster } = require("puppeteer-cluster");
+const product = require("./api/product");
 
 (async () => {
   const cluster = await Cluster.launch({
@@ -92,6 +93,10 @@ const { Cluster } = require("puppeteer-cluster");
       res.end("Error: " + err.message);
     }
   });
+
+  app.use(express.json({ extended: false }));
+
+  app.use("/api/product", product);
 
   app.listen(3000, function () {
     console.log("Screenshot server listening on port 3000.");
